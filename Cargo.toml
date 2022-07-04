@@ -9,6 +9,7 @@ license = "MIT OR Apache-2.0"
 keywords = ["consistent", "hash", "hashing", "algorithm", "jump-consistent-hash"]
 categories = ["algorithms"]
 authors = ["Mnwa <mikhail@panfilov.tech>"]
+repository = "https://github.com/Mnwa/jumpch"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
