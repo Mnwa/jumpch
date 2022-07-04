@@ -26,3 +26,9 @@ fn main () {
     assert_eq!(hash(123456, 1000), 176)
 }
 ```
+
+## Contributing
+Any PR's and issues are welcome.
+
+## License
+This lib is distributed by `MIT` and `Apache 2.0` licenses. Just choose what's you want.
