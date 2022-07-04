@@ -2,7 +2,7 @@ use std::collections::hash_map::DefaultHasher;
 use std::hash::Hasher;
 
 /// `JumpHasher` is the wrapper for `Jump Consistent Hash` that implementing `Hasher` trait.
-/// `MUST TO KNOW`: This implementation finishes never return value more than `u32`.
+/// `MUST TO KNOW`: This implementation finish never return value more than `u32`.
 ///
 /// Example:
 /// ```rust
@@ -12,9 +12,9 @@ use std::hash::Hasher;
 ///
 /// let mut hasher: JumpHasher<DefaultHasher> = JumpHasher::new(1000);
 ///
-/// 123456i32.hash(&mut hasher);
+/// "test".hash(&mut hasher);
 ///
-/// assert_eq!(hasher.finish(), 179)
+/// assert_eq!(hasher.finish(), 677)
 /// ```
 #[derive(Copy, Clone, Debug)]
 pub struct JumpHasher<H = DefaultHasher> {
@@ -84,30 +84,33 @@ mod tests {
     use std::hash::{Hash, Hasher};
 
     #[test]
-    fn get_slot_1() {
-        let test = 123456;
-        check_range(test);
+    fn test_struct() {
+        #[derive(Hash)]
+        struct Test(i32, String);
+
+        let test = Test(123456, "test".to_string());
+        check_range(&test);
     }
 
     #[test]
-    fn get_slot_2() {
-        let test = 654321;
-        check_range(test);
+    fn test_str() {
+        let test = "test 1";
+        check_range(&test);
     }
 
     #[test]
-    fn get_slot_3() {
+    fn test_int() {
         let test = 123456;
-        check_range(test);
+        check_range(&test);
     }
 
-    fn check_range(test: usize) {
+    fn check_range<H: Hash>(test: &H) {
         for slots in 0..1000 {
             check_algorithm(slots, test);
         }
     }
 
-    fn check_algorithm(slots: u32, test: usize) {
+    fn check_algorithm<H: Hash>(slots: u32, test: H) {
         let mut hasher: JumpHasher<DefaultHasher> = JumpHasher::new(slots);
         test.hash(&mut hasher);
         let hash = hasher.finish();
