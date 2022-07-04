@@ -1,4 +1,8 @@
 # Jump Consistent Hash algorithm
+[![](https://docs.rs/jumpch/badge.svg)](https://docs.rs/jumpch/)
+[![](https://img.shields.io/crates/v/jumpch.svg)](https://crates.io/crates/jumpch)
+[![](https://img.shields.io/crates/d/jumpch.svg)](https://crates.io/crates/jumpch)
+
 > Jump Consistent Hashing is a fast, minimal memory, consistent hash algorithm. In comparison to the algorithm of Karger et al., jump
 consistent hash requires no storage, is faster, and does a better job of evenly dividing the key
 space among the buckets and of evenly dividing the workload when the number of buckets
