@@ -1,6 +1,6 @@
 [package]
 name = "jumpch"
-version = "1.0.0"
+version = "2.0.0"
 edition = "2024"
 description = "Jump Consistent Hashing is a fast, minimal memory, consistent hash algorithm."
 documentation = "https://docs.rs/jumpch"
