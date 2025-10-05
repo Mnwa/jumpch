@@ -1,6 +1,7 @@
 # Jump Consistent Hash for Rust (jumpch)
-[![](https://docs.rs/jumpch/badge.svg)](https://docs.rs/jumpch/)
 [![](https://img.shields.io/crates/v/jumpch.svg)](https://crates.io/crates/jumpch)
+[![](https://img.shields.io/github/actions/workflow/status/Mnwa/jumpch/rust.yml)](https://github.com/Mnwa/jumpch/actions/workflows/rust.yml?query=branch%3Amaster)
+[![](https://docs.rs/jumpch/badge.svg)](https://docs.rs/jumpch/)
 [![](https://img.shields.io/crates/d/jumpch.svg)](https://crates.io/crates/jumpch)
 
 Jump Consistent Hashing is a fast, minimal‑memory, consistent hashing algorithm. Compared to the
