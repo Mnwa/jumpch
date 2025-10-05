@@ -1,38 +1,70 @@
-# Jump Consistent Hash algorithm
+# Jump Consistent Hash for Rust (jumpch)
 [![](https://docs.rs/jumpch/badge.svg)](https://docs.rs/jumpch/)
 [![](https://img.shields.io/crates/v/jumpch.svg)](https://crates.io/crates/jumpch)
 [![](https://img.shields.io/crates/d/jumpch.svg)](https://crates.io/crates/jumpch)
 
-> Jump Consistent Hashing is a fast, minimal memory, consistent hash algorithm. In comparison to the algorithm of Karger et al., jump
-consistent hash requires no storage, is faster, and does a better job of evenly dividing the key
-space among the buckets and of evenly dividing the workload when the number of buckets
-changes.
+Jump Consistent Hashing is a fast, minimal‑memory, consistent hashing algorithm. Compared to the
+classic algorithm by Karger et al., Jump Consistent Hash requires no storage, runs faster, and better
+evens out keys across buckets while minimizing remapping when the number of buckets changes.
 
-## Usage
+This crate provides a tiny, dependency‑free implementation suitable for sharding, partitioning, load
+balancing, and cache key distribution.
+
+- Deterministic mapping from key → bucket index
+- O(1) time, O(1) space
+- No allocations
+
+## Install
+Add this to your Cargo.toml:
+
+```toml
+[dependencies]
+jumpch = "*"
+```
+
+## Quick start
+High‑level adapter implementing `Hasher`:
+
 ```rust
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 use jumpch::JumpHasher;
 
-fn main () {
+fn main() {
     let mut hasher: JumpHasher<DefaultHasher> = JumpHasher::new(1000);
-
     "test".hash(&mut hasher);
-
-    assert_eq!(hasher.finish(), 677)
+    let bucket = hasher.finish(); // 0..1000
+    assert!(bucket < 1000);
 }
 ```
+
+Low‑level function if you already have a 64‑bit key:
 
 ```rust
-use jumpch::hash;
-
-fn main () {
-    assert_eq!(hash(123456, 1000), 176)
+fn main() {
+    let bucket = jumpch::hash(123456u64, 1000u32);
+    assert!(bucket < 1000);
 }
 ```
 
+## When to use Jump Consistent Hashing
+- Distributing keys across shards/partitions
+- Client‑side load balancing across N backends
+- Cache clustering with minimal key movement when nodes change
+
+## API overview
+- `JumpHasher<H>`: a `Hasher` adapter that yields the bucket index via `finish()`.
+- `hash(key, slots) -> u32`: compute the bucket directly.
+- `Slots(u32)`: newtype wrapper; panics on `0`.
+
+## FAQ
+- What range does the result fall into?
+  The bucket index is always `< slots`.
+- Is the output stable?
+  Yes, for a fixed number of `slots`, the same key always maps to the same bucket.
+
 ## Contributing
-Any PR's and issues are welcome.
+PRs and issues are welcome.
 
 ## License
-This lib is distributed by `MIT` and `Apache 2.0` licenses. Just choose what's you want.
+Dual‑licensed under MIT and Apache‑2.0; choose either license.
